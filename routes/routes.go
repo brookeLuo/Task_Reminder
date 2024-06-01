@@ -13,7 +13,7 @@ func Router() *gin.Engine {
 	userGroup := r.Group("/user")
 	{
 		userGroup.POST("/login", controllers.UserLogin)
-		userGroup.POST("/register", controllers.UserRegister)
+		userGroup.POST("/register", controllers.UserRegisterService)
 	}
 
 	// 任务相关的路由组
