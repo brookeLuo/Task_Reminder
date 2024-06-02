@@ -11,3 +11,10 @@ func UserRegister(u *models.UserInfo) error {
 	h.Handler()
 	return h.Error
 }
+
+func UserLogin(u *models.UserInfo) (UserInfo *models.UserInfo, err error) {
+	h := new(user.LoginHandler)
+	h.UserInfo = u
+	h.Handler()
+	return h.UserInfo, h.Error
+}
