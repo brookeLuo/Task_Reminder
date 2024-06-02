@@ -20,8 +20,8 @@ func Router() *gin.Engine {
 	// 任务相关的路由组
 	taskGroup := r.Group("/task")
 	{
-		taskGroup.GET("/list", controllers.TaskList)
-		taskGroup.POST("/add", controllers.TaskAdd)
+		taskGroup.POST("/list", controllers.TaskListService)
+		taskGroup.POST("/add", controllers.TaskAddService)
 		taskGroup.POST("/edit", controllers.TaskEdit)
 		taskGroup.DELETE("/delete", controllers.TaskDelete)
 	}
