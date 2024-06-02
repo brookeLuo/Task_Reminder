@@ -14,6 +14,7 @@ func Router() *gin.Engine {
 	{
 		userGroup.POST("/login", controllers.UserLoginService)
 		userGroup.POST("/register", controllers.UserRegisterService)
+		userGroup.GET("/userinfo", controllers.UserInfoService)
 	}
 
 	// 任务相关的路由组

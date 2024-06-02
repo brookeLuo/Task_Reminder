@@ -10,4 +10,5 @@ type TaskInfo struct {
 	RepeatRule      int    `json:"repeatRule"`
 	RepeatTime      int    `json:"repeatTime"`
 	TaskDescreption string `json:"taskDescreption"`
+	TaskOwner       string `json:"taskOwner"`
 }
