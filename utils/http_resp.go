@@ -6,7 +6,7 @@ import (
 )
 
 func HttpFailedResponse(c *gin.Context, err error, msg string) {
-	FailOnError(err, "register failed")
+	FailOnError(err, "request failed")
 	c.JSON(http.StatusOK, gin.H{
 		"code": 401,
 		"msg":  msg,
@@ -20,5 +20,14 @@ func HttpSuccessResponse(c *gin.Context, msg string, obj interface{}) {
 		"code": 200,
 		"msg":  msg,
 		"data": obj,
+	})
+}
+
+func HttpLoginSuccessResponse(c *gin.Context, msg string, token string) {
+	LoggerInfo(msg)
+	c.JSON(http.StatusOK, gin.H{
+		"code":  200,
+		"msg":   msg,
+		"token": token,
 	})
 }
