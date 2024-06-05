@@ -22,3 +22,7 @@ type TaskListRule struct {
 type TaskRequest struct {
 	TaskInfo *TaskInfo `json:"taskinfo"`
 }
+
+type ListTaskRequest struct {
+	TaskNames *string `json:"taskname"`
+}

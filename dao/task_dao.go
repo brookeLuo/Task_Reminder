@@ -22,12 +22,16 @@ func AddTask(u *models.TaskInfo) error {
 func GetTask(conditions map[string]interface{}) ([]models.TaskInfo, error) {
 	var tasks []models.TaskInfo
 	query := DB.Model(&models.TaskInfo{})
+	fmt.Println(conditions)
 
 	// 动态添加查询条件
 	for key, value := range conditions {
 		if key == "task_name" {
 			// 使用 LIKE 模糊查询
-			query = query.Where(fmt.Sprintf("%s LIKE ?", key), fmt.Sprintf("%%%s%%", value))
+			str := conditions[key].(string)
+			fmt.Println(str)
+			query = query.Where(fmt.Sprintf("%s LIKE ?", key), "%"+str+"%")
+
 		} else {
 			query = query.Where(fmt.Sprintf("%s = ?", key), value)
 		}

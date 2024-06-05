@@ -16,9 +16,14 @@ func TaskListService(c *gin.Context) {
 		HttpAddTaskFailedResponse(c, err, "ExtractUserIDFromToken Failed")
 		return
 	}
-	value := c.Query("taskName")
+
+	task := new(models.ListTaskRequest)
+	if err := c.ShouldBindJSON(&task); err != nil || task == nil {
+		HttpAddTaskFailedResponse(c, err, "json to struct failed")
+		return
+	}
 	rule := new(models.TaskListRule)
-	rule.TaskNames = utils.ToPtr(value)
+	rule.TaskNames = task.TaskNames
 	rule.OperatorID = utils.ToPtr(userId)
 
 	infos, err := handler.ListTask(rule)
