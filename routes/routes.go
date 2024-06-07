@@ -25,8 +25,8 @@ func Router() *gin.Engine {
 		{
 			taskGroup.POST("/list", controllers.TaskListService)
 			taskGroup.POST("/add", controllers.TaskAddService)
-			taskGroup.POST("/edit", controllers.TaskEdit)
-			taskGroup.DELETE("/delete", controllers.TaskDelete)
+			taskGroup.POST("/edit", controllers.TaskEditService)
+			taskGroup.DELETE("/delete", controllers.TaskDeleteService)
 		}
 	}
 

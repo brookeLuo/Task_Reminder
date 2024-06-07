@@ -13,13 +13,13 @@ func TaskListService(c *gin.Context) {
 
 	userId, err := utils.ExtractUserIDFromToken(token)
 	if err != nil {
-		HttpAddTaskFailedResponse(c, err, "ExtractUserIDFromToken Failed")
+		httpAddTaskFailedResponse(c, err, "ExtractUserIDFromToken Failed")
 		return
 	}
 
 	task := new(models.ListTaskRequest)
 	if err := c.ShouldBindJSON(&task); err != nil || task == nil {
-		HttpAddTaskFailedResponse(c, err, "json to struct failed")
+		httpAddTaskFailedResponse(c, err, "json to struct failed")
 		return
 	}
 	rule := new(models.TaskListRule)
@@ -28,14 +28,14 @@ func TaskListService(c *gin.Context) {
 
 	infos, err := handler.ListTask(rule)
 	if err != nil {
-		HttpListTaskFailedResponse(c, err, err.Error())
+		httpListTaskFailedResponse(c, err, err.Error())
 		return
 	}
 
-	HttpListTaskSuccessResponse(c, "list task success", infos)
+	httpListTaskSuccessResponse(c, "list task success", infos)
 }
 
-func HttpListTaskFailedResponse(c *gin.Context, err error, msg string) {
+func httpListTaskFailedResponse(c *gin.Context, err error, msg string) {
 	utils.FailOnError(err, "list task request failed")
 	c.JSON(http.StatusOK, gin.H{
 		"code": 401,
@@ -44,7 +44,7 @@ func HttpListTaskFailedResponse(c *gin.Context, err error, msg string) {
 	})
 }
 
-func HttpListTaskSuccessResponse(c *gin.Context, msg string, obj interface{}) {
+func httpListTaskSuccessResponse(c *gin.Context, msg string, obj interface{}) {
 	utils.LoggerInfo(msg)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,

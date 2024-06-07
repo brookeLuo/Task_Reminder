@@ -59,6 +59,20 @@ func (r *RegisterHandler) load() {
 		return
 	}
 
+	//查询 userInfo 是否注册
+	user, _ = dao.GetUser(map[string]interface{}{
+		"user_name": utils.FromPtr(r.UserInfo.UserName),
+	})
+
+	if user != nil {
+		r.Resp = &models.Resp{
+			Code:  utils.ToPtr(400),
+			Msg:   utils.ToPtr("user_name already exists"),
+			Error: errors.New("user_name already exists"),
+		}
+		return
+	}
+
 	//load success
 	return
 }

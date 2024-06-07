@@ -51,3 +51,27 @@ func ListTask(t *models.TaskListRule) (taskInfos *[]models.TaskInfo, err error) 
 	h.Handler()
 	return h.TaskInfos, h.Error
 }
+
+func EditTask(uid *int, t *models.TaskInfo) error {
+	h := new(task.EditTaskHandler)
+	h.UserInfo = &models.UserInfo{
+		Model: gorm.Model{
+			ID: uint(utils.FromPtr(uid)),
+		},
+	}
+	h.TaskInfo = t
+	h.Handler()
+	return h.Error
+}
+
+func DeleteTask(uid *int, t *models.TaskInfo) error {
+	h := new(task.DeleteTaskHandler)
+	h.UserInfo = &models.UserInfo{
+		Model: gorm.Model{
+			ID: uint(utils.FromPtr(uid)),
+		},
+	}
+	h.TaskInfo = t
+	h.Handler()
+	return h.Error
+}

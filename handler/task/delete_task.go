@@ -7,20 +7,20 @@ import (
 	"simple_project/Task_Reminder/utils"
 )
 
-type AddTaskHandler struct {
+type DeleteTaskHandler struct {
 	*models.Resp
 	UserInfo *models.UserInfo
 	TaskInfo *models.TaskInfo
 }
 
-func (a *AddTaskHandler) Handler() {
+func (a *DeleteTaskHandler) Handler() {
 	if a.load(); a.Resp != nil {
 		return
 	}
-	if err := dao.AddTask(a.TaskInfo); err != nil {
+	if err := dao.DeleteTask(a.TaskInfo.ID); err != nil {
 		a.Resp = &models.Resp{
 			Code:  utils.ToPtr(400),
-			Msg:   utils.ToPtr("create task dao failed"),
+			Msg:   utils.ToPtr("delete task dao failed"),
 			Error: err,
 		}
 		return
@@ -28,13 +28,13 @@ func (a *AddTaskHandler) Handler() {
 
 	a.Resp = &models.Resp{
 		Code: utils.ToPtr(0),
-		Msg:  utils.ToPtr("add task success"),
+		Msg:  utils.ToPtr("delete task success"),
 	}
 	return
 
 }
 
-func (a *AddTaskHandler) load() {
+func (a *DeleteTaskHandler) load() {
 	//插 owner
 	if a.UserInfo == nil || a.UserInfo.ID == 0 {
 		a.Resp = &models.Resp{
@@ -57,8 +57,10 @@ func (a *AddTaskHandler) load() {
 		return
 	}
 
+	a.UserInfo = user
+
 	//判参数
-	if a.TaskInfo == nil || a.TaskInfo.IsRepeat == nil || a.TaskInfo.Status == nil || a.TaskInfo.TaskDescreption == nil || a.TaskInfo.TaskName == nil {
+	if a.TaskInfo == nil || a.TaskInfo.ID == 0 {
 		a.Resp = &models.Resp{
 			Code:  utils.ToPtr(400),
 			Msg:   utils.ToPtr("task info is invalid"),
@@ -67,16 +69,25 @@ func (a *AddTaskHandler) load() {
 		return
 	}
 
-	//重复规则
-	if utils.FromPtr(a.TaskInfo.IsRepeat) {
-		if a.TaskInfo.RepeatRule == nil {
-			a.Resp = &models.Resp{
-				Code:  utils.ToPtr(400),
-				Msg:   utils.ToPtr("RepeatRule info is invalid"),
-				Error: errors.New("RepeatRule info is invalid"),
-			}
-			return
+	//判断 token 解析 userinfo 与 task owner 是否一致
+	task, err := dao.GetTask(map[string]interface{}{
+		"id": a.TaskInfo.ID,
+	})
+	if task == nil || len(task) != 1 {
+		a.Resp = &models.Resp{
+			Code:  utils.ToPtr(400),
+			Msg:   utils.ToPtr("taskId  is invalid"),
+			Error: errors.New("taskId is invalid"),
 		}
+		return
+	}
+	if utils.FromPtr(task[0].TaskOwner) != utils.FromPtr(user.UserName) {
+		a.Resp = &models.Resp{
+			Code:  utils.ToPtr(400),
+			Msg:   utils.ToPtr("task is not belong the user"),
+			Error: errors.New("task is not belong the user"),
+		}
+		return
 	}
 
 	//success
