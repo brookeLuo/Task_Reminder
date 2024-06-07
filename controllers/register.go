@@ -13,7 +13,7 @@ func UserRegisterService(c *gin.Context) {
 
 	userInfo := new(models.UserInfo)
 	if err := c.ShouldBindJSON(&userInfo); err != nil {
-		HttpFailedResponse(c, err, "json to struct failed")
+		httpFailedResponse(c, err, "json to struct failed")
 		return
 	}
 
@@ -22,15 +22,15 @@ func UserRegisterService(c *gin.Context) {
 
 	err := handler.UserRegister(userInfo)
 	if err != nil {
-		HttpFailedResponse(c, err, err.Error())
+		httpFailedResponse(c, err, err.Error())
 		return
 	}
 
-	HttpSuccessResponse(c, "register success", nil)
+	httpSuccessResponse(c, "register success", nil)
 	return
 }
 
-func HttpFailedResponse(c *gin.Context, err error, msg string) {
+func httpFailedResponse(c *gin.Context, err error, msg string) {
 	utils.FailOnError(err, "request failed")
 	c.JSON(http.StatusOK, gin.H{
 		"code": 401,
@@ -39,7 +39,7 @@ func HttpFailedResponse(c *gin.Context, err error, msg string) {
 	})
 }
 
-func HttpSuccessResponse(c *gin.Context, msg string, obj interface{}) {
+func httpSuccessResponse(c *gin.Context, msg string, obj interface{}) {
 	utils.LoggerInfo(msg)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
