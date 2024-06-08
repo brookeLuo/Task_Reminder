@@ -18,13 +18,13 @@ type Status int
 
 type TaskInfo struct {
 	gorm.Model
-	TaskName        *string     `json:"taskName" binding:"required"`
-	Status          *Status     `json:"Status" binding:"status"`
-	IsRepeat        *bool       `json:"IsRepeat" binding:"required"`
-	RepeatRule      *RepeatRule `json:"repeatRule" binding:"repeat_rule"`
-	RepeatTime      *int        `json:"repeatTime" binding:"required"`
-	TaskDescreption *string     `json:"taskDescreption" binding:"required"`
-	TaskOwner       *string     `json:"taskOwner"`
+	TaskName        *string     `json:"task_name" binding:"required"`
+	Status          *Status     `json:"status" binding:"status_jude"`
+	IsRepeat        *bool       `json:"is_repeat" binding:"required"`
+	RepeatRule      *RepeatRule `json:"repeat_rule" binding:"repeat_rule_jude"`
+	RepeatTime      *int        `json:"repeat_time" binding:"required"`
+	TaskDescreption *string     `json:"task_descreption" binding:"required"`
+	TaskOwner       *string     `json:"task_owner"`
 }
 
 type TaskListRule struct {
@@ -34,15 +34,15 @@ type TaskListRule struct {
 
 // TaskRequest 定义 TaskRequest 结构体
 type TaskRequest struct {
-	TaskInfo *TaskInfo `json:"taskinfo" binding:"required"`
+	TaskInfo *TaskInfo `json:"task_info" binding:"required"`
 }
 
 type ListTaskRequest struct {
-	TaskNames *string `json:"taskname" binding:"required"`
+	TaskNames *string `json:"task_names" binding:"required"`
 }
 
 type DeleteTaskRequest struct {
-	TaskInfo *DeleteTaskInfo `json:"taskinfo" binding:"required"`
+	TaskInfo *DeleteTaskInfo `json:"task_info" binding:"required"`
 }
 
 type DeleteTaskInfo struct {
