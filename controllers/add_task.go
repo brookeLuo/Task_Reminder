@@ -21,8 +21,8 @@ func TaskAddService(c *gin.Context) {
 
 	// Register custom validator
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		v.RegisterValidation("repeat_rule", IsValidRepeatRule)
-		v.RegisterValidation("status", IsValidStatus)
+		v.RegisterValidation("repeat_rule_jude", IsValidRepeatRule)
+		v.RegisterValidation("status_jude", IsValidStatus)
 	}
 
 	task := new(models.TaskRequest)
