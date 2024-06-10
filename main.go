@@ -23,6 +23,8 @@ func main() {
 	s, err := initDb.DB()
 	defer s.Close()
 
+	//http
 	r := routes.Router()
+
 	r.Run(":8080")
 }
