@@ -30,6 +30,9 @@ func Router() *gin.Engine {
 		}
 	}
 
+	//ws
+	SetupRouter(r)
+
 	// 启动服务器
 	r.Run(":8080") // 默认监听并服务于 0.0.0.0:8080
 
